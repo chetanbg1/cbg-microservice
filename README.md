@@ -101,6 +101,20 @@ Profiles in Spring Boot
   	Spring profile helps to seperate the configuraton for each env
    	we can create diff application.properties file for each env 
 
+Spring Actuator 
+	feature that helps to monitor and manage your application when you push it to production
+ 	it include feature like  auditing, health, and metrics gathering 
+	can enable this feature by adding dependincy : spring-boot-starter-actuator in pom.xml 
+ 	default endpoint = https://localhost:8080/actuator/
+  	explicitly include all enpoint  = management.endpoints.web.exposure.include=*
+   	expose selected = management.endpoints.web.exposure.include=health,info,env,beans
+    	httptrace = consume memory for each httprequest  
+
+deploy spring boot as as JAR or WAR 
+	add spring-boot-maven-plugin in pom.xml
+ 	by usin gabove plugin we can get a JAR executing the package phase, jar will contain neccessary libraries and dependencies also contain embedded server
+  	the packaging element in the pom.xml file must be set to jar to build jar file 
+   	<packaging>jar<packaging>  /   <packaging>war<packaging>
 key dependencies 
     spring-boot-starter-parent 
         all configuration related to maven such as maven-sunfire-plugin, maven-jar-plugin and maven-failsafe-plugin 
