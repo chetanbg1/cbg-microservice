@@ -1,8 +1,6 @@
 # cbg-microservice
 
-I left my previous job due to health issues,
- but I am now fully recovered and eager to join a new role. I am an experienced
- software developer with Java, Spring, Spring Boot, MySQL, MongoDB, React.js, and DevOps skills.
+
 
 spring framwork - enterprice java framework which helps to write enterprize java applications
     -   application framework 
@@ -18,8 +16,8 @@ spring framwork - enterprice java framework which helps to write enterprize java
 
 Springboot - simply bootstrap - quickly start the appication production ready quick app 
 - java framework that make it easy to create stand-alone, production-grade spring based applications that we can just run 
-- simplifies teh configuration and setup process allowing developer to focus more on writing code for their app
-- a module of the spring framework, facilitates Rapid Application Development capabilities 
+- simplifies the configuration and setup process allowing developer to focus more on writing code for their app
+- a module of the spring framework, facilitates Rapid Application Development capabilities, extra support of autoconfiguration and embedded server
 - solves many developers problems 
     - configuration
     - dependency management 
@@ -57,7 +55,7 @@ starts by calling main method of your main class
 java dependencies 
     maven lets to declare all the dependencies in a single file pom.xml 
 
-@SpringbootApplication = @configuration + @EnableAutoConfiguration + @ComponentScan 
+@SpringbootApplication = @configuration (helps to identifiy the beans in application)+ @EnableAutoConfiguration (bean is autoscanned and added to set of depedencies) + @ComponentScan (it scans the component/ bean defined by us)
     sets up default configuration
     starts spring appliction context
     performs class path scan 
@@ -74,13 +72,20 @@ java dependencies
     same as component , used to annotate classes that contain business logic 
 
 @RestController = @Controller + @ ResponseBody
-    class in which we map url  with class method , return JSON response 
+    class in which we map url  with class method , return JSON response (responce to restApi -json, xml ) 
+
+@Controller
+	map the model object to view or template and make it human readable (response to web app - >HTML +CSS +javaScript)
 
 @ReuestMapping 
     use to map specific url to method, used on class as well as method
+    can used with get, put, post, delete
 
 @Repository 
     marks class as DAO, used on class that has databse persistent logic 
+
+@Value("${server.port}")
+	fetch the value from application.properties file 
 
 what are the Spring Boot Starters  
     starters are a collection of pre-configured dependencies 
@@ -88,6 +93,13 @@ what are the Spring Boot Starters
     includes all dependincies , version control, and configuration needed to make certain features
     of spring boot application functional. 
     eg starter-web , starter-data-jpa 
+
+
+Profiles in Spring Boot 
+	when developing an app for enterprise, we deal with diff environnments such as dev, QA, prod 
+ 	configuration fo each env is diff
+  	Spring profile helps to seperate the configuraton for each env
+   	we can create diff application.properties file for each env 
 
 key dependencies 
     spring-boot-starter-parent 
