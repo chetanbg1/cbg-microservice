@@ -259,6 +259,7 @@ Connection Pool
         spring.datasource.url = jdbc:mysql://localhost:3306/db_name 
         spring.datasource.username = root 
         spring.datasource.password = root 
+	spring.jpa.hibernate.ddl-auto = update
 
 
     @Autowired
