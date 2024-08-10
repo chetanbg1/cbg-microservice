@@ -32,7 +32,12 @@ hibernate configuration file -
       		...
 	</session-factory>
 
-spring framwork - enterprice java framework which helps to write enterprize java applications
+ Lasy initialization in hibernate - design pattern used to postpon the initialization of object as long as possible 
+ 
+
+spring framwork 
+--
+- enterprice java framework which helps to write enterprize java applications
     -   application framework 
     -   programming and configuration model 
     -   infrastructure support 
