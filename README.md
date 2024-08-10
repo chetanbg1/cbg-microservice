@@ -1,6 +1,36 @@
 # cbg-microservice
 
+Hibernate
+--
+is an object-relational mapping toll used to mao java objects and database tables 
+it provides JPA implementation hence we can use JPA annotation as well as xml configurations to achieve this mapping 
+hibernate eliminates all the boiler -plate code that comes with JDBC
+supports HQL which is more object oriented
+provides transaction management implicitly 
+support caching for better performance 
+no need of try catch as it throws JDBCException or HibernateException 
 
+Session factory - used to retrieve session objects for database operations, can cache it and reuse it , one sessionfactory object per databse connection
+Session - used for connecting application with persistant store like hibernate framework 
+used to get phtsical connection with database 
+provide curd operation 
+Transaction - this is specific single / automic units of work
+
+SessionFactory factory  = metadata.getSessionFactoryBuilder().build();
+Session session  = factory.openSession();
+Transaction t  = session.beginTransaction();
+
+	session.save(obj);
+	t.commit;
+	factory.close();
+	session.close()
+hibernate configuration file - 
+	used to discribe properties related to database that used to cerate the session factory
+ 	<session-factory>
+  		<property name = "connection.url">jdbc:oracle:thin:@localhost:1234:dbname</property>
+    		...
+      		...
+	</session-factory>
 
 spring framwork - enterprice java framework which helps to write enterprize java applications
     -   application framework 
@@ -87,6 +117,9 @@ java dependencies
 @Value("${server.port}")
 	fetch the value from application.properties file 
 
+@Entity 
+	map class to the table 
+ 
 what are the Spring Boot Starters  
     starters are a collection of pre-configured dependencies 
     that make it easier to develop perticular kind of application
