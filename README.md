@@ -37,6 +37,35 @@ hibernate configuration file -
 
 spring framwork 
 --
+Dependency Injection - 
+	In software design, dependency injection (DI) is a design pattern that aims to decouple objects from their dependencies. Instead of creating their own dependencies internally, objects receive them from an external source.
+	In Dependency Injection, the dependencies of a class are injected from the outside, rather than the class creating or managing its dependencies internally. 
+	Loose Coupling and Reusability:Objects don’t create their own dependencies, breaking tight connections and making them more independent.
+	Testability: Inject mock or test doubles for dependencies, allowing you to test individual objects in isolation without relying on external systems or services.
+	Maintainability and Flexibility: Dependency injection frameworks often manage dependencies, making it easier to track and configure them.
+	Scalability and Extensibility: In large-scale applications, DI helps manage complex dependency graphs and enables easier scaling and extension. Add new features or modify existing ones without significant code refactoring, as 	dependencies can be easily injected or replaced.
+	Cross-Cutting Concerns: Inject services for logging, security, caching, or other cross-cutting concerns that are used across multiple components, avoiding code duplication and promoting a consistent approach.
+
+Inversion of Control - 
+	Spring IoC (Inversion of Control) Container is the core of Spring Framework. It creates the objects, configures and assembles their dependencies, manages their entire life cycle. The Container uses Dependency Injection(DI) to 	manage the components that make up the application. It gets the information about the objects from a configuration file(XML) or Java Code or Java Annotations and Java POJO class. These objects are called Beans. Since the 		Controlling of Java objects and their lifecycle is not done by the developers, hence the name Inversion Of Control.
+
+	Increased Modularity and Maintainability:
+		Code becomes cleaner and more modular by decoupling components from their dependencies.
+		Components rely on abstract interfaces or base classes, not concrete implementations, making them easier to change and test.
+		Changes in one component’s dependencies don’t ripple through the entire system, simplifying maintenance.
+	Improved Testability:
+		Mocks and stub dependencies can be easily injected for unit testing, facilitating isolated testing of components.
+		This leads to more reliable and efficient test suites.
+	Reduced Coupling and Improved Loose Coupling:
+		Components depend on abstractions, not specific implementations, promoting loose coupling.
+		This makes the system more flexible and adaptable to changes.
+	Easier Collaboration and Reusability:
+		Developers can focus on implementing core functionalities without worrying about dependencies.
+		Components with injected dependencies can be easily reused in different contexts.
+	Encourages Loose Coupling and Promotes Dependency Management:
+		Dependency injection frameworks can manage dependencies across the application, preventing dependency conflicts and ensuring version compatibility.
+
+Spring - 
 - enterprice java framework which helps to write enterprize java applications
     -   application framework 
     -   programming and configuration model 
