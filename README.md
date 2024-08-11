@@ -385,8 +385,25 @@ What is JdbcClient?
     }
 
 
+Spring AOP
+--
+	the crosscutting cuncerns are segrigated from the business code 
+	 Aspect-Oriented Programming (AOP) is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns. Cross-cutting concerns are aspects of a program that affect multiple parts of 	the application, such as logging, security, or transaction management. These concerns can lead to code duplication and tangled code if not handled properly.
+  	In AOP, these cross-cutting concerns are modularized into separate units called aspects . This modularization helps keep the business logic clean and uncluttered by separating the additional functionalities into aspects.
+
+ 	Aspect : The key unit of modularity in AOP, representing a concern that cuts across multiple classes. For example, an aspect for logging can be applied across various methods in different classes.
+	Advice : This is the action taken by an aspect at a particular join point. There are five types of advice:
+	Before : Executed before the method call.
+	After : Executed after the method call, regardless of its outcome.
+	AfterReturning : Executed after the method returns a result, but not if an exception occurs.
+	Around : Surrounds the method execution, allowing you to control the method execution and its result.
+	AfterThrowing : Executed if the method throws an exception.
+	Join Point : A specific point in the execution of a program, such as method execution or exception handling, where an aspect can be applied.
+	Pointcut : A predicate that matches join points. A pointcut expression specifies where an advice should be applied.
+	Weaving : The process of linking aspects with the target object. Weaving can occur at compile-time, load-time, or runtime. Spring AOP performs runtime weaving using proxy-based mechanisms.
 
 -# Microservices 
+--
 architecture - building application by breaking it down in smaller applications 
              - deploying them seperately as processes on seperate machines 
              - these processes communicate with each other via api restapi and json payload 
