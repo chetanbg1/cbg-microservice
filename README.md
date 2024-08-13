@@ -425,6 +425,15 @@ challenges in microservices -
     managing product realse 
     lot of teams need to cordinate together to deploy application as whole to get realse 
 
+How microservices interact with each other --
+	Synchronous communication
+ 		RestTemplate, WebClient, FeignClient can be used for synchronous communication
+   		ideally, we should minimize the number of synchronous calls netween microservices because networks are brittle and they introduce latency
+     	Asynchronous communication
+      		the client does not wait for a response instead it just sends the message to the message broker
+		AMQP(like RAbbitMQ) or Kafka can be used for asynchronous communication across microservices to achieve eventual consistency 
+
+ 
 RestFul 
     - treat object as resource 
 
