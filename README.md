@@ -66,6 +66,7 @@ Inversion of Control -
 		Dependency injection frameworks can manage dependencies across the application, preventing dependency conflicts and ensuring version compatibility.
 
 Spring - 
+--
 - enterprice java framework which helps to write enterprize java applications
     -   application framework 
     -   programming and configuration model 
@@ -77,6 +78,10 @@ Spring -
     multiple setup steps 
     multiple configuration steps
     multiple build and deploy steps 
+
+ApplicationContext.xml file
+	
+
 
 Springboot - simply bootstrap - quickly start the appication production ready quick app 
 - java framework that make it easy to create stand-alone, production-grade spring based applications that we can just run 
@@ -433,10 +438,53 @@ How microservices interact with each other --
       		the client does not wait for a response instead it just sends the message to the message broker
 		AMQP(like RAbbitMQ) or Kafka can be used for asynchronous communication across microservices to achieve eventual consistency 
 
- 
+Rest representational state transfe
+--
+Rest 
+	we have the data in databse -when we request for data we are getting json format (pojo) this is transfer of state from data base over a network(http protocols)  to client using rest api
+ 	client --> restAPI --> server --> database
+
+  rest resource 
+  	every content in the rest architechture is considered a resource
+   	the resource  = object in OOP  --> can be represented as text files, HTML pages, images or any other dynamic data
+    	rest server provides access to these resources whereas the REST client consumers(accesses and modifies) the resources. 
+     	every resource is identified globally by means of a URI
+      		URI - uniform Resource Identifier is the full form of URI which is used for identifiing each resource of the rest architechture
+		<protocol>://<service-name>/<RequestType>/<RequestID>
+  		eg - https://localhost:8080
+    HTTP mehods 
+    	also known as HTTP verbs 
+     	they form a major portion of uniform interface restriction followed by the REST that specifies what action has to be followed to get the requested resource
+
+      	GET - used for fetching details from server and read -only operation
+       	POST - used to create new resource on the server
+	PUT - used to update the existing resource in the server 
+ 	DELETE - use to delete the resource from server
+  	PATCH - used to modify the resource
+   	OPTIONS - fetches the list of supported options of resources present on server
+
+    	post, get , put , delete == CURD - create , read , update , delete
+
+     
+    
 RestFul 
     - treat object as resource 
+    - restful webservicesnare web services that follows REST architechtural concept(stateless client-server architechture)
+    - it is architechtural style for developing application that can be accessed over the network 
 
+     based on client - server model
+     service uses HTTP protocol for fetching data/ resources, query execution, or any other function
+     the medium of communication between the client and server is called "Messaging"
+     resources are accessible to the service by means of URIs
+     follows stateless concept where the client request and response are not dependent on others and thereby provides total assurance of getting the required data
+     	stateless 
+      		as per Rest Architecture a restful web service should not keep a client state on server this restriction is called statelessness
+		it is responsibility of the client to pass its context (headers)to server and then server can store this context to process client's further request
+  		eg - session is maintain by server , is identified by session identifier passed by the client 
+    	
+     uses the concept of caching to minimize the server calls for repeated requests
+
+    
 test - unit test , integration test , contract test ,acceptance test , performance test
 
 client certificates is a digital certificate used to make request to a remote server 
