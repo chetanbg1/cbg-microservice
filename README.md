@@ -409,6 +409,11 @@ Spring AOP
 
 -# Microservices 
 --
+	architecture where the application is exposed as loosely coupled services that can be independently developed, deployed and maintain
+ 	each service perform unique function
+  	support the polygot architecture - meaning can support diff techs - java , mysql, python , node js, nosql etc.
+   	collection of small autonomous services, modeled around a business domain 
+    
 architecture - building application by breaking it down in smaller applications 
              - deploying them seperately as processes on seperate machines 
              - these processes communicate with each other via api restapi and json payload 
@@ -416,10 +421,42 @@ advantages   - smaller changes can be easily deployed
              - different technologies 
              - independent deployment
              - best suited when we have large application and there is need of scaling 
+	     - each service is independent and gives the flexibility to choose the programming language, database and architechture
+      	     - black box - one service does not know anything about other services 
 
+disadvantages
+	communication is complex
+ 	more microservices means more resources high investment
+  	diificult to maintain transaction safty and data boundry 
+   	debugging of problems are harder 
+
+
+		
+										--> Microservice 1 -->	|
+										--> Microservice 2 -->	|
+FE/Client  --->  security and identity management  ---> API gateway --->	--> Microservice 3 -->	|
+								|		--> Microservice 4 -->	|
+								|					|
+								--->	service Discovery 	<--------
+
+ 	API gateway 
+  		entry point where we have routing mechanism to send request to perticular microservice
+    		secutiry can be implemented here so microservices can have only business logic 
+    	Service discover -
+     		eureka from netflix
+       		where all our microservices are registered 
+	 	as we can not hardcode the URLs these can at any point from env to env
+   		euraka keeps the track of all the microservies / urls 
+     
 monolithic application
-    - application that is deployed as one big thing 
-    - tightly coupled architecture 
+	code base is same for presentation , business layer and data access layer , application depployed as a single unit
+ 	complex tommaintain and scalability is an issue 
+    	application that is deployed as one big thing 
+    	tightly coupled architecture 
+
+Service - Oriented Architecture 
+	is a collection of services which communicate with each other
+ 	involves simple data passing or it could involve two or more services coordinating some activity
 
 Spring Cloud -
     - provide different libraries which allows us to build and manage our microservices 
@@ -432,13 +469,30 @@ challenges in microservices -
 
 How microservices interact with each other --
 	Synchronous communication
+ 		service waits for response after performing a request 
  		RestTemplate, WebClient, FeignClient can be used for synchronous communication
+   		GRPC - develop by google as substitute of rest 10 times faster than rest api
    		ideally, we should minimize the number of synchronous calls netween microservices because networks are brittle and they introduce latency
      	Asynchronous communication
       		the client does not wait for a response instead it just sends the message to the message broker
+		a message broker is responsible for handling the message sent by the producer service and it will gurantee message delivery
+  			Point to point 
+     				we have queue
+	 			service which produces the message, which is called as producer(sender),will send the message to the queue in one message broker and the service that has an interest inthat message which is called consumer
+     				will consume the message from queue and carry out further processes for that message
+	 			one message send by producer can be consume by only one receiver and massage will be deleted
+     				if receiver service is down message will persist in queue untill the receiver is up
+	 			best choise to make microservice resilient
+     				eg - RabbitMQ  , ActiveMQ
+	 		Publisher-Subscriber 
+    				the topic in the message broker will be used to store the message sent by the publisher and then the subscribers that subscribe to that topic will consume that message
+				unlike point to point, message is ready to consume by all the subscribers and topic can have one or more subscribers
+    				message remain persist in a topic until we delete it
+ 				in messaging based communication, the services that consume messages, either from queue or topic, must know the common message structure that is produced or published by producer or publisher
+     				eg Kafka, Amazon SNS..
 		AMQP(like RAbbitMQ) or Kafka can be used for asynchronous communication across microservices to achieve eventual consistency 
 
-Rest representational state transfe
+Rest representational state transfer
 --
 Rest 
 	we have the data in databse -when we request for data we are getting json format (pojo) this is transfer of state from data base over a network(http protocols)  to client using rest api
@@ -643,3 +697,81 @@ Spring Cloud Config server
         spring.cloud.config.server.git.uri = "github_repo_url"
         server.port=8989
         localhot:8989/<file-name>/profile(default)
+
+
+ SAGA
+ --
+  	we have distributed services to perform a taks in microservices eg ordering a food 
+ 	service 1- we place the order --> service 2 - payment made --> service 3- food dilivered 
+ 	what if the payment is made but no dilivery parterner is avalible , payment service does not know about the dilivery failure but your have already paid for the food
+ 	that means application has failed to manage distributed transaction (a transaction that span across multiple micro services )
+
+  	to handle such distributed transaction issues SAGA design pattern come in to picture
+   	each microservice can work has SAGA
+    		update the current microservice and make required changes
+      		publish events to trigger the next transaction for the next microservice 
+    	each micro service will do its task and create a event in sequencial order to trigger the next micro service 
+
+			 	order service  ---->   payment microservice  ----->    Delivery MicroService  ----
+
+	success flow   ---> 	create order event --->  Validate Payment event ----> Delivery Microservice    ---> order sucessfull
+
+ 	Failure flow 	-->	CancelOrderEvent  <--   	RevertPaymentEvent <---		DeliveryFailedEvent  <--
+
+
+	saga pattern provide the transaction management
+ 	saga pattern grouping these local transaction and sequentially invoking one by one 
+  	each local transaction update the database and publishes an event to trigger the next local transaction
+   	if one step fails saga pattern trigger to rollback transactions that are a set of compensating transactions that rillback the changes on previous microservices and restore data consistency 
+
+	ways to implement the saga
+ 		Choreography
+   	 		coordinate with single message broker 
+       			each microservices run its own local transaction and publishes events to message broker system and that trigger local transactions in other microservice 
+   		Orchestration
+     			coordinate sagas where a centralized controller tells the saga participants what local transactions to execute
+			the saga orchestrator handles all the transactions and tells the participant which operation to perform based on events
+   			the orchestrator
+      				executes saga request
+	  			stores and interprets the state of each task
+      				handles failure recovery with compensating transactions
+
+   how to hanlde data consitency in a microservice
+   	Synchronous communication
+    	Asyb=nchronous communication
+     	CQRS	(Command Query Responsibility Segregation)
+	Event Sourcing
+ 	Distributed Transaction
+  	SAGA pattern
+   	Monitoring and Logging
+    	Conflict Resolution
+
+
+KAFKA
+--
+	apache kafka is publish-subscribe based fault tolerant messaging syatem
+ 	it is fast, scalable and distributed by desiign
+  	it waas initially throught of as a message queue and open-source by LinkedIn in 2011
+   		publish and subscribe to streams of records, like a message queue
+     		storage system so message can be consumed asynchronously
+       		kafka writes data to a scalable disk structure nd replicates for fault-tolerance.
+	 	producers can wait for acknowledgement
+		sream processing with kafka streams API, enables complex aggregations or joins of input stream onnto an output stream of processed data
+	in publish - subscribe , record is received by all consumers
+
+  	pros
+   		loose coupling - neither services knows about other regarding data update matters
+     		Durability - guarantees that the message will be delivered even if the consumer service is down
+       		Scalability - since the message get stored in a bucket, there is no need to wait for responses, we can create asynchronous communication between all services.
+	 	Flexibility - the sender of the massage has no idea who is going to consume it. meaning you caan easily add new consumers with less work
+   	cons
+    		semantics - the developer needs to have a deep understanding of the message flow as its strict requirment. complex fallback approches may take place
+      		message visibility - you must track akk those messages to allow you to whenever a problem occurs. correlation IDs may be an option
+   
+  
+  steps to configure kafka
+  	install zookeeper and Kafka in local 
+   	github.com/codedecode25/Kafka
+      
+    	
+   	
