@@ -772,6 +772,78 @@ KAFKA
   steps to configure kafka
   	install zookeeper and Kafka in local 
    	github.com/codedecode25/Kafka
+
+Kafka terminologies
+
+ 	Producer  ---->   clustor  -->
+  				Brokers -->
+      				      Topics -->
+					 Paritions -->
+      					      offsets -->  mesaage / events    ---> consumer 
+
+
+   	Topic 	
+    		a bucket of message(or events in case of kafka) where services may place or read message from.
+      		messages are orgnized and durably stored in topics.
+		topic is similar to a folder and the messages are files in folder.
+  		topics are multi-producer and multi-subscriber
+    		message can be read as many times as needed
+      		messages / events inkafka are not deleted after consumption
+		we can define how long kafka should retain the message
+
+    		kafka topics are divided into number of partitions, who contain the message / events in an unchangable sequence
+      		each msg in a partition is assigned and identified by unique offset
+		this allows multiple consumers to read from topic in parallel
+
+  		replication is implemented at the partition level
+    		the redundant unit of a partition is called a replica
+      		replica have leader and follower servers leader handles all read write request and follower replicates it
+
+
+ 	Cluster
+  		is a system that is comprises of different brokers, topics and theor respective partitions
+
+
+    	Producers
+     		a producer sends or write data/ message to the topic within the cluster.
+       		before a producer can send any msg it has to request metadata about the cluster from broker
+	 	metadata contain information about on which broker is the leader for each partition and a producer  always writes to the partition leader
+   		producer attach a key to the msg dictating the partition the  msg should go to
+     		all msgs with same key will arrive at the same partition
+
+
+  	Consumers
+   		is the one that read or consumes the message from the kafka
+     		the beauty fo kafka is that each consumer knows where it needs to consume the data
+       		reads the data in from partition in orderly manner
+	 	consumers pull message from topic partitions
+   		msgs are never push out to consumers
+     		consumers will never overload themselves with lots of data or lose any data since all msga=s are being queued up in kafka 
+
+       Broker and Partition
+       		Broker - kafka server, kafka node and kafka broker all refers same concept
+		 	it is a bridge between producers and consumers 
+	   		if producer want to write a data to the cluster it is send to the kafka server
+	     		a kafka broker allows consumers to fetch message by topic  partition and offset
+	       		all brokers lie within a kafka cluster itself
+		 	to maintain load balance kafka cluster consist of multiple broker
+
+   		partitions - the data or message divided into small subparts known as partition
+     			each partition carries data with in it having o=an offset value
+			data is always written in sequential manner
+   			we can have infinite number of partition with infinite offset values
+
+	Zookeeper
+ 		managing and coordinating kafka broker uses zookeeper
+   		is used to store the information about the kafka cluster and details of the consumer clients
+     		it manages brokers in cluster by maintaining the list of them
+       		brokers are stateless hence for maintaining the cluster state they use zookeeper
+	 	responsible for choosing the leader of partition
+   		also used it to notify producer and consumer about the presence of any new broker in the kafka system or failure of the broker in system 
+     		also sends the notifications regarding presence or failure of theh broker then producer and consumer, take the decision and starts coordinating their task with some other broker 
+       		
+   		
+       
       
     	
    	
