@@ -2,7 +2,7 @@
 
 Hibernate
 --
-is an object-relational mapping toll used to mao java objects and database tables 
+is an object-relational mapping tool used to map java objects and database tables 
 it provides JPA implementation hence we can use JPA annotation as well as xml configurations to achieve this mapping 
 hibernate eliminates all the boiler -plate code that comes with JDBC
 supports HQL which is more object oriented
@@ -12,7 +12,7 @@ no need of try catch as it throws JDBCException or HibernateException
 
 Session factory - used to retrieve session objects for database operations, can cache it and reuse it , one sessionfactory object per databse connection
 Session - used for connecting application with persistant store like hibernate framework 
-used to get phtsical connection with database 
+used to get physical connection with database 
 provide curd operation 
 Transaction - this is specific single / automic units of work
 
@@ -100,14 +100,13 @@ why springboot over spring
     rapid application
     opinionated
     convetion over configuration 
-    stand alone 
-    production ready 
+    stand alone  
     provide dependency management 
     auto-configuration 
     Embedded server 
 
 working of spring boot 
-    starts by scanning the starter dependencies inpom.xml 
+    starts by scanning the starter dependencies in pom.xml 
     then download and auto configure the module as you included in pom.xml on maven build /  configure on run 
     eg spring-boot-starter-web 
 
@@ -162,14 +161,13 @@ java dependencies
 what are the Spring Boot Starters  
     starters are a collection of pre-configured dependencies 
     that make it easier to develop perticular kind of application
-    includes all dependincies , version control, and configuration needed to make certain features
-    of spring boot application functional. 
+    includes all dependincies , version control, and configuration needed to make certain features of spring boot application functional. 
     eg starter-web , starter-data-jpa 
 
 
 Profiles in Spring Boot 
 	when developing an app for enterprise, we deal with diff environnments such as dev, QA, prod 
- 	configuration fo each env is diff
+ 	configuration for each env is diff
   	Spring profile helps to seperate the configuraton for each env
    	we can create diff application.properties file for each env 
 
@@ -184,15 +182,16 @@ Spring Actuator
 
 deploy spring boot as as JAR or WAR 
 	add spring-boot-maven-plugin in pom.xml
- 	by usin gabove plugin we can get a JAR executing the package phase, jar will contain neccessary libraries and dependencies also contain embedded server
+ 	by using above plugin we can get a JAR executing the package phase, jar will contain neccessary libraries and dependencies also contain embedded server
   	the packaging element in the pom.xml file must be set to jar to build jar file 
    	<packaging>jar<packaging>  /   <packaging>war<packaging>
+    
 key dependencies 
     spring-boot-starter-parent 
         all configuration related to maven such as maven-sunfire-plugin, maven-jar-plugin and maven-failsafe-plugin 
         provides default configurations for spring-based app 
         dependency management feature manages the version of common dependencies 
-        default compiper level as java 1.8 and UTF-8 source encoding 
+        default compiler level as java 1.8 and UTF-8 source encoding 
         executes a repackage goal with a repackage execution id 
 
     spring-boot-maven-plugin
@@ -208,11 +207,11 @@ key dependencies
 
 can we use only spring boot dependency feature and configuration maven plugin manually
     yes 
-    dont inherit from teh spring-boot-starter pom.
+    dont inherit from the spring-boot-starter pom.
     include spring boot dependencies inside the dependencymanagement secction as an import scope 
 
 Spring boot CLI and its benefits
-    command line tool to cteate, run and manage spring boot application
+    command line tool to create, run and manage spring boot application
     spring 
     spring help init 
     spring version 
@@ -450,7 +449,7 @@ FE/Client  --->  security and identity management  ---> API gateway --->	--> Mic
      
 monolithic application
 	code base is same for presentation , business layer and data access layer , application depployed as a single unit
- 	complex tommaintain and scalability is an issue 
+ 	complex to maintain and scalability is an issue 
     	application that is deployed as one big thing 
     	tightly coupled architecture 
 
@@ -472,16 +471,16 @@ How microservices interact with each other --
  		service waits for response after performing a request 
  		RestTemplate, WebClient, FeignClient can be used for synchronous communication
    		GRPC - develop by google as substitute of rest 10 times faster than rest api
-   		ideally, we should minimize the number of synchronous calls netween microservices because networks are brittle and they introduce latency
+   		ideally, we should minimize the number of synchronous calls between microservices because networks are brittle and they introduce latency
      	Asynchronous communication
       		the client does not wait for a response instead it just sends the message to the message broker
 		a message broker is responsible for handling the message sent by the producer service and it will gurantee message delivery
   			Point to point 
      				we have queue
-	 			service which produces the message, which is called as producer(sender),will send the message to the queue in one message broker and the service that has an interest inthat message which is called consumer
-     				will consume the message from queue and carry out further processes for that message
+	 			service which produces the message, which is called as producer(sender),will send the message to the queue in one message broker and the service that has an interest int hat message which is called 					consumer
+     				it will consume the message from queue and carry out further processes for that message
 	 			one message send by producer can be consume by only one receiver and massage will be deleted
-     				if receiver service is down message will persist in queue untill the receiver is up
+     				if receiver service is down message will persist in queue until the receiver is up
 	 			best choise to make microservice resilient
      				eg - RabbitMQ  , ActiveMQ
 	 		Publisher-Subscriber 
@@ -492,7 +491,7 @@ How microservices interact with each other --
      				eg Kafka, Amazon SNS..
 		AMQP(like RAbbitMQ) or Kafka can be used for asynchronous communication across microservices to achieve eventual consistency 
 
-Rest representational state transfer
+Rest - representational state transfer
 --
 Rest 
 	we have the data in databse -when we request for data we are getting json format (pojo) this is transfer of state from data base over a network(http protocols)  to client using rest api
@@ -523,7 +522,7 @@ Rest
     
 RestFul 
     - treat object as resource 
-    - restful webservicesnare web services that follows REST architechtural concept(stateless client-server architechture)
+    - restful webservices are web services that follows REST architechtural concept(stateless client-server architechture)
     - it is architechtural style for developing application that can be accessed over the network 
 
      based on client - server model
@@ -584,7 +583,7 @@ issues with microservices
         2 -  circuit breaker pattern 
             detect somthing is wrong
             take temporary steps to avoide the situation getting worse 
-            deacrivate the problem somponent so that it does not affect downstream component 
+            deactivate the problem component so that it does not affect downstream component 
             simply - holding the request to slow instance 
 
         circuit breaker parameters 
@@ -612,7 +611,7 @@ Hystrix
     give it the configuration parameters and it does the work 
     works with spring boot 
 
-how to add hestrix in spring boot 
+how to add hystrix in spring boot 
     add the maven dependency spring-cloud-starter-netflix-hystrix 
     add annotation @EnableCircuitBreaker to the application class 
     add @HystrixCommand to method that need circuit breakers 
@@ -722,7 +721,7 @@ Spring Cloud Config server
 	saga pattern provide the transaction management
  	saga pattern grouping these local transaction and sequentially invoking one by one 
   	each local transaction update the database and publishes an event to trigger the next local transaction
-   	if one step fails saga pattern trigger to rollback transactions that are a set of compensating transactions that rillback the changes on previous microservices and restore data consistency 
+   	if one step fails saga pattern trigger to rollback transactions that are a set of compensating transactions that rollback the changes on previous microservices and restore data consistency 
 
 	ways to implement the saga
  		Choreography
@@ -738,7 +737,7 @@ Spring Cloud Config server
 
    how to hanlde data consitency in a microservice
    	Synchronous communication
-    	Asyb=nchronous communication
+    	Asynchronous communication
      	CQRS	(Command Query Responsibility Segregation)
 	Event Sourcing
  	Distributed Transaction
@@ -750,23 +749,23 @@ Spring Cloud Config server
 KAFKA
 --
 	apache kafka is publish-subscribe based fault tolerant messaging syatem
- 	it is fast, scalable and distributed by desiign
-  	it waas initially throught of as a message queue and open-source by LinkedIn in 2011
+ 	it is fast, scalable and distributed by design
+  	it was initially throught of as a message queue and open-source by LinkedIn in 2011
    		publish and subscribe to streams of records, like a message queue
      		storage system so message can be consumed asynchronously
-       		kafka writes data to a scalable disk structure nd replicates for fault-tolerance.
+       		kafka writes data to a scalable disk structure and replicates for fault-tolerance.
 	 	producers can wait for acknowledgement
-		sream processing with kafka streams API, enables complex aggregations or joins of input stream onnto an output stream of processed data
+		stream processing with kafka streams API, enables complex aggregations or joins of input stream onto an output stream of processed data
 	in publish - subscribe , record is received by all consumers
 
   	pros
    		loose coupling - neither services knows about other regarding data update matters
      		Durability - guarantees that the message will be delivered even if the consumer service is down
        		Scalability - since the message get stored in a bucket, there is no need to wait for responses, we can create asynchronous communication between all services.
-	 	Flexibility - the sender of the massage has no idea who is going to consume it. meaning you caan easily add new consumers with less work
+	 	Flexibility - the sender of the massage has no idea who is going to consume it. meaning you can easily add new consumers with less work
    	cons
     		semantics - the developer needs to have a deep understanding of the message flow as its strict requirment. complex fallback approches may take place
-      		message visibility - you must track akk those messages to allow you to whenever a problem occurs. correlation IDs may be an option
+      		message visibility - you must track all those messages to allow you to whenever a problem occurs. correlation IDs may be an option
    
   
   steps to configure kafka
@@ -801,7 +800,7 @@ Kafka terminologies
 
 
  	Cluster
-  		is a system that is comprises of different brokers, topics and theor respective partitions
+  		is a system that is comprises of different brokers, topics and their respective partitions
 
 
     	Producers
@@ -814,11 +813,11 @@ Kafka terminologies
 
   	Consumers
    		is the one that read or consumes the message from the kafka
-     		the beauty fo kafka is that each consumer knows where it needs to consume the data
+     		the beauty of kafka is that each consumer knows where it needs to consume the data
        		reads the data in from partition in orderly manner
 	 	consumers pull message from topic partitions
    		msgs are never push out to consumers
-     		consumers will never overload themselves with lots of data or lose any data since all msga=s are being queued up in kafka 
+     		consumers will never overload themselves with lots of data or lose any data since all msgas are being queued up in kafka 
 
        Broker and Partition
        		Broker - kafka server, kafka node and kafka broker all refers same concept
@@ -829,7 +828,7 @@ Kafka terminologies
 		 	to maintain load balance kafka cluster consist of multiple broker
 
    		partitions - the data or message divided into small subparts known as partition
-     			each partition carries data with in it having o=an offset value
+     			each partition carries data with in it having an offset value
 			data is always written in sequential manner
    			we can have infinite number of partition with infinite offset values
 
@@ -840,7 +839,7 @@ Kafka terminologies
        		brokers are stateless hence for maintaining the cluster state they use zookeeper
 	 	responsible for choosing the leader of partition
    		also used it to notify producer and consumer about the presence of any new broker in the kafka system or failure of the broker in system 
-     		also sends the notifications regarding presence or failure of theh broker then producer and consumer, take the decision and starts coordinating their task with some other broker 
+     		also sends the notifications regarding presence or failure of the broker then producer and consumer, take the decision and starts coordinating their task with some other broker 
        		
    		
        
