@@ -1,5 +1,7 @@
 # cbg-microservice
 
+https://www.springboottutorial.com/blog/1-springboot.html
+
 Hibernate
 --
 is an object-relational mapping tool used to map java objects and database tables 
@@ -33,10 +35,12 @@ hibernate configuration file -
 	</session-factory>
 
  Lasy initialization in hibernate - design pattern used to postpon the initialization of object as long as possible 
- 
+
 
 spring framwork 
 --
+The core feature of Spring framework is dependency injection. Spring also provides great integration with other frameworks, like Hibernate. Spring provides a few frameworks of its own - for example, Spring MVC for developing web applications and REST API.
+
 Dependency Injection - 
 	In software design, dependency injection (DI) is a design pattern that aims to decouple objects from their dependencies. Instead of creating their own dependencies internally, objects receive them from an external source.
 	In Dependency Injection, the dependencies of a class are injected from the outside, rather than the class creating or managing its dependencies internally. 
@@ -64,15 +68,23 @@ Inversion of Control -
 		Components with injected dependencies can be easily reused in different contexts.
 	Encourages Loose Coupling and Promotes Dependency Management:
 		Dependency injection frameworks can manage dependencies across the application, preventing dependency conflicts and ensuring version compatibility.
-
-Spring - 
+ 	
+  
+ 
+	   									
+Spring	     							
 --
 - enterprice java framework which helps to write enterprize java applications
     -   application framework 
     -   programming and configuration model 
     -   infrastructure support 
 
-    problem with spring 
+  
+  Problem with Spring Based Applications
+	If you look at any Spring-based application, such as a Spring MVC application:
+	You need to configure a lot of components within it: define beans / view resolver
+	You also end up configuring a data source and a transaction manager: dispatcher servlet
+	You also end up configuring a data source and a transaction manager: entity manager factory/ database connection
     huge framework 
     manual configuration 
     multiple setup steps 
@@ -80,8 +92,49 @@ Spring -
     multiple build and deploy steps 
 
 ApplicationContext.xml file
+  									
+
+
+
+
+Spring MVC
+--
+What is Spring MVC?
+Spring MVC is a Java-based framework that is mostly used for developing web applications. It follows the MVC (Model-View-Controller) Design Pattern. This design pattern specifies that an application consists of a data model, presentation information, and control information.
+
+This framework is developed around a DispatcherServlet which dispatches requests to handlers. In the current industry, many of them are using Spring Boot Microservices, but there are many projects still running in Spring MVC. So it is worth learning Spring MVC in the recent era. That’s why we are going to cover all the things which are part of the Spring MVC framework one by one in an organized manner.
+
+Spring Model-View-Controller
+Model – A model contains the application’s data. A data set might be a single object or a group of things.
+Controller – A controller houses an application’s business logic. The @Controller annotation is used here to identify the class as the controller.
+View – A view is a representation of the delivered information in a certain format. In most cases, JSP+JSTL is utilized to construct a view page. Spring does, however, support additional view technologies such as Apache Velocity, Thymeleaf, and FreeMarker.
+Front Controller – The DispatcherServlet class serves as the front controller in Spring Web MVC. It is in charge of managing the flow of the Spring MVC application.
+
+
+
+
 	
 
+ Spring boot 		
+ --
+Spring Boot Auto Configuration looks to bring more intelligence
+into application configuration.
+For example, it looks to build a few patterns,
+identify what JAR files are available,
+and looks to auto-configure a lot of the things.
+Spring Boot ensures that a developer
+can build a new Spring project in a few minutes, instead of hours.
+Spring Boot takes care of the typical things you normally do in Sprint 0 of a project.
+Integration with several frameworks
+Configuration management
+Logging
+Transaction management
+Error/Exception handling
+Monitoring and health checks
+Integrating unit testing and mocking frameworks		
+Spring Boot also takes the responsibility of managing versions of dependent libraries.
+You just need to migrate to the latest version of Spring Boot,
+and the corresponding compatible versions of all the frameworks being used are directly available for you.
 
 Springboot - simply bootstrap - quickly start the appication production ready quick app 
 - java framework that make it easy to create stand-alone, production-grade spring based applications that we can just run 
@@ -113,16 +166,56 @@ working of spring boot
 how spring boot starts - 
 starts by calling main method of your main class 
 
+starts - 
+	are a set of convinent dpendency descriptors that you can include in your application
+ 	we get a one-stop-shop for all the spring and related technology that you need without having hunt through sample code and copy paste loads of dependency descriptors. 
+  	eg if we want to get started using spring and JPA for database access, just include spring-boot-starter-data-jpa dependency in you project and good to go
+
     SpringApplication.run(SpringbootWorkApplication.class , args); 
 
     the run method of SpringApplication is called 
     this method starts the application by creating an application-context(contains beans ) and initializing it 
     once the applicationContext initializes, the run() method start the embedded server 
 
+Spring Boot Provides Starter Projects
+Spring Boot provides a feature called Starter Projects, which helps you quickly add specific features to your application. Important ones include:
+
+spring-boot-starter-web-services: Quickly build SOAP Web Services.
+spring-boot-starter-web: Useful to build RESTful web applications, using Spring MVC. It uses Tomcat as the default embedded container.
+spring-boot-starter-test: Used for testing Spring Boot applications, using libraries such as JUnit, Hamcrest, and Mockito.
+spring-boot-starter-hateoas: Useful for building hypermedia-based RESTful web applications, using Spring MVC and Spring HATEOAS.
+spring-boot-starter-jersey: An alternative to string-boot-starter-web. Useful for building RESTful web applications using JAX-RS and Jersey
+spring-boot-starter-security: Useful for using Spring Security
+spring-boot-starter-jpa: Used for Spring data JPA with hibernate
+spring-boot-starter-data-rest: A stater for exposing Spring Data repositories over REST, using Spring Data REST
 
 java dependencies 
     maven lets to declare all the dependencies in a single file pom.xml 
 
+JPA
+JPA allows you to map application classes to database tables.
+
+Entity Manager - Entity manager may manage your entities after the mappings are defined. Entity Manager manages all database interactions.
+Java Persistence Query Language (JPQL) - Offers methods for writing queries to do entity searches. It is critical to recognise that these are not SQL queries. JPQL queries are already aware of the mappings that exist between entities. More criteria can be added as needed.
+Criteria API specifies a Java-based API for doing database searches.
+
+What is Spring Data?
+From http://projects.spring.io/spring-data/
+
+The objective of Spring Data is to provide a familiar and consistent Spring-based programming model for data access while keeping the unique characteristics of the underlying data store. It makes data access technologies, relational and non-relational databases, map-reduce frameworks, and cloud-based data services simple to utilise.
+
+To make things easier, Spring Data provides Abstractions (interfaces) that may be used regardless of the underlying data source.
+
+An example is shown below
+
+interface TodoRepository extends CrudRepository<Todo, Long> {}
+
+Core idea is that
+Without writing a lot of code, you may establish a basic repository and use it to insert, update, remove, and retrieve todo entities from the database.
+
+
+Annotations
+--
 @SpringbootApplication = @configuration (helps to identifiy the beans in application)+ @EnableAutoConfiguration (bean is autoscanned and added to set of depedencies) + @ComponentScan (it scans the component/ bean defined by us)
     sets up default configuration
     starts spring appliction context
@@ -132,9 +225,11 @@ java dependencies
 
 @component 
     it is used to mark class as a spring bean that will be managed by the spring container 
+    tells spring frameworks that there is bean that you need to manage
 
 @Autowired
     is used to automatically inject dependencies into a spring-managed bean 
+    tells spring framework hey find the correct match for this specific type and autowire it in
 
 @Service 
     same as component , used to annotate classes that contain business logic 
@@ -461,6 +556,37 @@ Spring Cloud -
     - provide different libraries which allows us to build and manage our microservices 
       on cloud using service discovery such as eureka server
 
+
+What Is Service Discovery?
+When we talk about a microservices architecture, we refer to a system with a large number of small services, working with each other:
+
+An important feature of such architectures is auto-scaling. The number of instances of a microservice varies based on the system load. Initially, you could have 5 instances of Microservice5, which go up later to 20, 100 or 1000!
+Two important questions arise
+How does Microservice4 know how many instances of Microservice5 are present, at a given time?
+In addition, how does it distribute the load among all of them?
+
+Hardcoding URLs is not an Option
+One way to do this is to hard-code the URLs of Microservice5 instances, within Microservice4. That means every time the number of Microservice5 instances changes (with addition of new, or deletion of existing), the configuration within Microservice4 needs to change. This is a big headache.
+
+Using Service Discovery
+Ideally, you want to change the number of instances of Microservice5 based on the load, and make Microservice4 dynamically aware of the instances.
+
+That’s where the concept of Service Discovery comes into the picture.
+
+The component that provides this service is generally called a naming server.
+
+All instances of all the microservices, register themselves with the naming server. Whenever a microservice wants to talk to another microservices, it asks the naming server about the available instances.
+
+In the example above, whenever a new instance of Microservice5 is launched, it registers with the naming server. When Microservice4 wants to talk to Microservice5, it asks the naming server - what are the available instances of Microservice5?
+
+
+
+
+
+
+
+
+
 challenges in microservices -
     monitoring  / tracking 
     managing product realse 
@@ -505,7 +631,8 @@ Rest
       		URI - uniform Resource Identifier is the full form of URI which is used for identifiing each resource of the rest architechture
 		<protocol>://<service-name>/<RequestType>/<RequestID>
   		eg - https://localhost:8080
-    HTTP mehods 
+    
+    HTTP methods 
     	also known as HTTP verbs 
      	they form a major portion of uniform interface restriction followed by the REST that specifies what action has to be followed to get the requested resource
 
@@ -518,7 +645,32 @@ Rest
 
     	post, get , put , delete == CURD - create , read , update , delete
 
-     
+   HTTP status code
+   	rest web services uses http status code in server responses
+    	200 - represent successful request and response
+     	400 - client side error
+      	500 - server side error
+       
+     URI -uniform resource identifier - identifies every resource in rest architechture
+
+    payload refers to any data that has been transfer via request or response through the rest api 
+
+    core component of HTTP request
+    method / verb - operations such as get, post delete ect
+    URI - identify the resource 
+    HTTP version - version that is being used
+    request header - contains the metadata
+    request body  - content that being sent 
+
+    core components of http response
+    status code - provide info about success or failure of request 
+    http version - http version
+    response header - response metadata
+    response body - contains the return data
+
+    idempotent method -
+	method that gives same response regardless of how many times the request is sent
+
     
 RestFul 
     - treat object as resource 
@@ -535,8 +687,14 @@ RestFul
 		it is responsibility of the client to pass its context (headers)to server and then server can store this context to process client's further request
   		eg - session is maintain by server , is identified by session identifier passed by the client 
     	
-     uses the concept of caching to minimize the server calls for repeated requests
+     client may request same data multiple times, uses the concept of caching to minimize the server calls for repeated requests
 
+API - Application - any software that has specific functionalit or purpose
+      Interface - contract or protocol that dictate how to applications talk to each other using request and response
+
+How are restapi's are stateless
+	stateful - stores data from client on its servers
+ 	rest architechture requires that the client state is not sttored on server instead each request made by client must conatin all the information for that perticular http method
     
 test - unit test , integration test , contract test ,acceptance test , performance test
 
