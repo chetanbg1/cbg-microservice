@@ -572,10 +572,47 @@ how to get list of all the beans
 Spring Security
 --
 	include a spring security starter dependency in pom.xml
- 	then we can create a configuration class extending WebSecurityConfigurerAdaptor to customize 		security settings, such as specifying secured endpoints and configuring the login and logout 		process.
-	we also implement the UserDetailsService interface to load user information, usually from a 		database,and use a password encoder like BCryptPasswordEncoder for secure password storage.
- 	we can secure specific endpoints using annotations like @preAuthrize based on roles or 			permissions.
-  	this setup ensures that my spring boot application is secure, managing both authentication and 		authorization.
+ 	then we can create a configuration class extending WebSecurityConfigurerAdaptor to customize security settings, such as specifying secured endpoints and configuring the login and logout 		process.
+	we also implement the UserDetailsService interface to load user information, usually from a database,and use a password encoder like BCryptPasswordEncoder for secure password storage.
+ 	we can secure specific endpoints using annotations like @preAuthrize based on roles or 	permissions.
+  	this setup ensures that my spring boot application is secure, managing both authentication and authorization.
+
+	Authentication - who you are --> Authorization - what you allowed to do --> principal - currently loged in user --> granted authoriyt - group of authority allowed for user --> Roles - Authorites assigned, eg admin,user
+
+	OAuth - its an open standard or a protocol for authorization
+ 	
+ 
+   JWT - JSON WEB TOKEN
+	Spring Boot Microservices requires authentication of users, and one way is through JSON Web Token (JWT). JWT is an open standard ( RFC 7519) that defines a compact mechanism for securely transmitting information between 		parties. In this post, I will explain how to implement JWT authentication in Spring Microservices.
+	it a compact and self-contained way to represent information between the two parties typically server - client
+	
+  
+	client -> username/ password -> server (validate the username and password, generate the JWT token using secret key) ->return the token to client in response 
+ 		next time whenever client request he will senf this token in the header -> server will validate this token and serves the request 
+
+  	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+   
+  		HEADER: consist of siging ALGORITHM & TOKEN TYPE
+		{
+		  "alg": "HS256",
+		  "typ": "JWT"
+		}
+		PAYLOAD:DATA - which contains the claims, clainms are statements about an entity(user data) and additional data
+		
+		{
+		  "sub": "1234567890",
+		  "name": "John Doe",
+		  "iat": 1516239022
+		}
+  
+		VERIFY SIGNATURE - encoded header + encoded payload + secret key 
+		HMACSHA256(
+		  base64UrlEncode(header) + "." +
+		  base64UrlEncode(payload),
+		  
+		your-256-bit-secret
+		
+		) secret base64 encoded
   
  	
 
