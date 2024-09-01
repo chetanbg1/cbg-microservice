@@ -51,6 +51,7 @@ Dependency Injection -
 	Cross-Cutting Concerns: Inject services for logging, security, caching, or other cross-cutting concerns that are used across multiple components, avoiding code duplication and promoting a consistent approach.
 
 Inversion of Control - 
+    	inverting the control of creating objects using new keyword to container or framework 
 	Spring IoC (Inversion of Control) Container is the core of Spring Framework. It creates the objects, configures and assembles their dependencies, manages their entire life cycle. The Container uses Dependency Injection(DI) to 	manage the components that make up the application. It gets the information about the objects from a configuration file(XML) or Java Code or Java Annotations and Java POJO class. These objects are called Beans. Since the 		Controlling of Java objects and their lifecycle is not done by the developers, hence the name Inversion Of Control.
 
 	Increased Modularity and Maintainability:
@@ -102,7 +103,7 @@ Spring MVC
 What is Spring MVC?
 Spring MVC is a Java-based framework that is mostly used for developing web applications. It follows the MVC (Model-View-Controller) Design Pattern. This design pattern specifies that an application consists of a data model, presentation information, and control information.
 
-This framework is developed around a DispatcherServlet which dispatches requests to handlers. In the current industry, many of them are using Spring Boot Microservices, but there are many projects still running in Spring MVC. So it is worth learning Spring MVC in the recent era. That’s why we are going to cover all the things which are part of the Spring MVC framework one by one in an organized manner.
+This framework is developed around a DispatcherServlet which dispatches requests to handlers. In the current industry, many of them are using Spring Boot Microservices, but there are many projects still running in Spring MVC.
 
 Spring Model-View-Controller
 Model – A model contains the application’s data. A data set might be a single object or a group of things.
@@ -110,20 +111,11 @@ Controller – A controller houses an application’s business logic. The @Contr
 View – A view is a representation of the delivered information in a certain format. In most cases, JSP+JSTL is utilized to construct a view page. Spring does, however, support additional view technologies such as Apache Velocity, Thymeleaf, and FreeMarker.
 Front Controller – The DispatcherServlet class serves as the front controller in Spring Web MVC. It is in charge of managing the flow of the Spring MVC application.
 
-
-
-
-	
-
  Spring boot 		
  --
-Spring Boot Auto Configuration looks to bring more intelligence
-into application configuration.
-For example, it looks to build a few patterns,
-identify what JAR files are available,
-and looks to auto-configure a lot of the things.
-Spring Boot ensures that a developer
-can build a new Spring project in a few minutes, instead of hours.
+Spring Boot Auto Configuration looks to bring more intelligence into application configuration.
+For example, it looks to build a few patterns, identify what JAR files are available, and looks to auto-configure a lot of the things.
+Spring Boot ensures that a developer can build a new Spring project in a few minutes, instead of hours.
 Spring Boot takes care of the typical things you normally do in Sprint 0 of a project.
 Integration with several frameworks
 Configuration management
@@ -144,9 +136,7 @@ Springboot - simply bootstrap - quickly start the appication production ready qu
     - configuration
     - dependency management 
     - embedded server
-      	Spring boot has an embedded servlet container feature, which essentially means it has a web 		server(like tomcat, jetty or Undertow) built right into the application
-
-    
+      	Spring boot has an embedded servlet container feature, which essentially means it has a web server(like tomcat, jetty or Undertow) built right into the application
 
 why springboot over spring 
     easy to use - remove boilerplate code 
@@ -178,6 +168,12 @@ starts -
     this method starts the application by creating an application-context(contains beans ) and initializing it 
     once the applicationContext initializes, the run() method start the embedded server 
 
+
+what are the Spring Boot Starters  
+    starters are a collection of pre-configured dependencies 
+    that make it easier to develop perticular kind of application
+    includes all dependincies , version control, and configuration needed to make certain features of spring boot application functional. 
+    eg starter-web , starter-data-jpa 
 Spring Boot Provides Starter Projects
 Spring Boot provides a feature called Starter Projects, which helps you quickly add specific features to your application. Important ones include:
 
@@ -197,7 +193,7 @@ Data Access Layers
 --
 spring boot greatly eases the implementation of the data access layer by offering several streamlined features
 it autoconfigure essential features like data source and JPA/Hibernate based on the liberaries present in the classpath reducing the manual setup
-provides build in repository support such as JpaRepository, enabling CURD operations with ut boilerplate code
+provides build in repository support such as JpaRepository, enabling CURD operations without boilerplate code
 also spring boot automatically initialize database schemas and seed data using scripts
 it integrate smoothly with various databases and ORM technologies transalate SQL expresions into Spring data access exeptions
 
@@ -273,7 +269,7 @@ Annotations
 
  @Qualifier
  	to handle the multiple beans of the same type
-  	this specifies which bean to inject when there sre multiple condidates
+  	this specifies which bean to inject when there are multiple condidates
 
 @Transactional
 	it tells spring to handle request as single transaction
@@ -282,8 +278,8 @@ Annotations
    	put on service layer - the service layer where the business logic is kept
 
 @Async
-	it handles the asynchronous operations, this let us run the task in the background without 		waiting for them to be complete before moving on to the next line of code
- 	to make method asynchronous we just add @Async above its defination and spring take care of 		running it in seoerate thread
+	it handles the asynchronous operations, this let us run the task in the background without waiting for them to be complete before moving on to the next line of code
+ 	to make method asynchronous we just add @Async above its defination and spring take care of running it in seperate thread
 	eg parallel operation like sending mail or processing files
 
 @EnableAsync 
@@ -297,16 +293,12 @@ Annotations
  eg @ConditionalOnClass - creates a bean if a specific class is present 
  helps in making our application flexible and adaptable to diff env with out changing the code enhancing its modularity and efficiency
  
-what are the Spring Boot Starters  
-    starters are a collection of pre-configured dependencies 
-    that make it easier to develop perticular kind of application
-    includes all dependincies , version control, and configuration needed to make certain features of spring boot application functional. 
-    eg starter-web , starter-data-jpa 
+
 
 
 Profiles in Spring Boot 
 --
-	when developing an app for enterprise, we deal with diff environnments such as dev, QA, prod 
+	when developing an app for enterprise, we deal with diff environments such as dev, QA, prod 
  	configuration for each env is diff
   	Spring profile helps to seperate the configuraton for each env
    	we can create diff application.properties file for each env 
@@ -370,9 +362,6 @@ Spring boot CLI and its benefits
 
 Thymeleaf 
     java-based server-side templating engine used in java web applications to render dynamic web pages. 
-
-IOC inversion of control 
-    inverting the control of creating objects using new keyword to container or framework 
 
 Spring bean life-cycle 
     Bean - simple plain java object 
@@ -562,7 +551,7 @@ how to get list of all the beans
 	Autowired a ApplicationContextClass
 
   	@Autowired
-   	private ApplicationContext applicationContetx
+   	private ApplicationContext applicationContext
     	private void listBeans(){
      		for(String beanName : applicationContext.getBeanDefinationNames()){
        			System.out.println(beanName);
@@ -572,12 +561,12 @@ how to get list of all the beans
 Spring Security
 --
 	include a spring security starter dependency in pom.xml
- 	then we can create a configuration class extending WebSecurityConfigurerAdaptor to customize security settings, such as specifying secured endpoints and configuring the login and logout 		process.
+ 	then we can create a configuration class extending WebSecurityConfigurerAdaptor to customize security settings, such as specifying secured endpoints and configuring the login and logout process.
 	we also implement the UserDetailsService interface to load user information, usually from a database,and use a password encoder like BCryptPasswordEncoder for secure password storage.
  	we can secure specific endpoints using annotations like @preAuthrize based on roles or 	permissions.
   	this setup ensures that my spring boot application is secure, managing both authentication and authorization.
 
-	Authentication - who you are --> Authorization - what you allowed to do --> principal - currently loged in user --> granted authoriyt - group of authority allowed for user --> Roles - Authorites assigned, eg admin,user
+	Authentication - who you are --> Authorization - what you allowed to do --> principal - currently loged in user --> granted authority - group of authority allowed for user --> Roles - Authorites assigned, eg admin,user
 
 	OAuth - its an open standard or a protocol for authorization
  	
@@ -588,7 +577,7 @@ Spring Security
 	
   
 	client -> username/ password -> server (validate the username and password, generate the JWT token using secret key) ->return the token to client in response 
- 		next time whenever client request he will senf this token in the header -> server will validate this token and serves the request 
+ 		next time whenever client request he will send this token in the header -> server will validate this token and serves the request 
 
   	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
    
@@ -614,8 +603,33 @@ Spring Security
 		
 		) secret base64 encoded
   
- 	
+WB client 
+--
+	add the webflux dependency 
 
+	String url ="https://dfgdfgd.dfg/ewww"
+	WebClient.Builder builer = WebClient.builder();
+ 	String response  = builder.build()
+  				.get()
+      				.uri(url)
+	  			.retrieve()
+      				.bodyToMono(String.class)  
+	  			.block;
+	return response;
+
+Feign client
+--
+	add eureka client dependency 
+ 	add openfeign dependency
+
+ 	@FeignClient("NAME-OF-SERVICE") // SERVICE WE WANT TO CALL
+   	public interface FeignInterface(){
+    		add / define the method which we want to call from the service
+      		as it is interface here we only have the defination implementation is in the sevice class
+	}
+
+ 	//autowire this interface where ever you needed 
+     
 Spring AOP
 --
 	the crosscutting cuncerns are segrigated from the business code 
@@ -633,6 +647,18 @@ Spring AOP
 	Pointcut : A predicate that matches join points. A pointcut expression specifies where an advice should be applied.
 	Weaving : The process of linking aspects with the target object. Weaving can occur at compile-time, load-time, or runtime. Spring AOP performs runtime weaving using proxy-based mechanisms.
 
+SLF4J logging 
+	spring-boot-starter-parent contains the dependency of slf4j logger
+	we can directly access the logger like bellow
+ 	Logger logger = LoggerFactory.getLogger(HomeController.class)
+	@GetMapping("/hello")
+   	public String hello(){
+		logger.error("kahi tari gandal aahe")  / methods like - trace/ debug/ warn / info
+      		return "hello world";
+	}
+ 
+  	
+
 Spring Boot Testing
 --
 	in spring boot we have some great tools for testing including @SpringBootTest and @MockBean
@@ -641,10 +667,10 @@ Spring Boot Testing
    	Integration testing - test how diff components interact with each other
 
     @SpringBootTest
-    	used for integration testing in spring boot, it says start up the spring context when this test 	runs
+    	used for integration testing in spring boot, it says start up the spring context when this test runs
      @MockBean -
      	used to create a mock version of component or service
-      	this is usefull when we want to test a part of your application without actually involving its 		dependencies
+      	this is usefull when we want to test a part of your application without actually involving its dependencies
 
 YAML over properties file
 	it supprot the hierarchical configuration, which are more readable and easy to manage
@@ -740,12 +766,6 @@ In the example above, whenever a new instance of Microservice5 is launched, it r
 
 
 
-
-
-
-
-
-
 challenges in microservices -
     monitoring  / tracking 
     managing product realse 
@@ -762,7 +782,7 @@ How microservices interact with each other --
 		a message broker is responsible for handling the message sent by the producer service and it will gurantee message delivery
   			Point to point 
      				we have queue
-	 			service which produces the message, which is called as producer(sender),will send the message to the queue in one message broker and the service that has an interest int hat message which is called 					consumer
+	 			service which produces the message, which is called as producer(sender),will send the message to the queue in one message broker and the service that has an interest in that message which is called 					consumer
      				it will consume the message from queue and carry out further processes for that message
 	 			one message send by producer can be consume by only one receiver and massage will be deleted
      				if receiver service is down message will persist in queue until the receiver is up
@@ -860,16 +880,16 @@ RestFul
      implement in app
      add dependency like spring-boot-stater-cache
      enable caching by adding annotation @EnableCaching to main class
-     define cacheble operation using @Cacheble annotation to the methos whose result we want to be cache
+     define cacheble operation using @Cacheble annotation to the method whose result we want to be cache
      @cacheEvict and @cachePut - to customize the cache behavior
      choose a cache provider (EhCache or Hezalcast) or use default concurrent map-based cache provided by spring
 
-API - Application - any software that has specific functionalit or purpose
+API - Application - any software that has specific functionality or purpose
       Interface - contract or protocol that dictate how to applications talk to each other using request and response
 
 How are restapi's are stateless
 	stateful - stores data from client on its servers
- 	rest architechture requires that the client state is not sttored on server instead each request made by client must conatin all the information for that perticular http method
+ 	rest architechture requires that the client state is not stored on server instead each request made by client must conatin all the information for that perticular http method
     
 test - unit test , integration test , contract test ,acceptance test , performance test
 
@@ -1020,7 +1040,7 @@ Spring Profiles
 
 Spring Cloud Config server 
     provides consistency in microservices 
-    can connect with Git repo to maintain version controll 
+    can connect with Git repo to maintain version control
 
     how to setup -->
         add config server dependency 
@@ -1035,18 +1055,18 @@ Security in Microservices using spring boot and spring security
 --
 	add spring security to each microservice for athentication and authorization
  	create a central authentication service that gives out token(JWT) when user log in
-  	ensure each micro service use these tokens to let inly allowed users in.
+  	ensure each micro service use these tokens to let only allowed users in.
    	use SSL/TSL for secure communication.
 
  SAGA
  --
-  	we have distributed services to perform a taks in microservices eg ordering a food 
+  	we have distributed services to perform a task in microservices eg ordering a food 
  	service 1- we place the order --> service 2 - payment made --> service 3- food dilivered 
  	what if the payment is made but no dilivery parterner is avalible , payment service does not know about the dilivery failure but your have already paid for the food
  	that means application has failed to manage distributed transaction (a transaction that span across multiple micro services )
 
   	to handle such distributed transaction issues SAGA design pattern come in to picture
-   	each microservice can work has SAGA
+   	each microservice can work on SAGA
     		update the current microservice and make required changes
       		publish events to trigger the next transaction for the next microservice 
     	each micro service will do its task and create a event in sequencial order to trigger the next micro service 
@@ -1174,7 +1194,7 @@ Kafka terminologies
 		topic is similar to a folder and the messages are files in folder.
   		topics are multi-producer and multi-subscriber
     		message can be read as many times as needed
-      		messages / events inkafka are not deleted after consumption
+      		messages / events in kafka are not deleted after consumption
 		we can define how long kafka should retain the message
 
     		kafka topics are divided into number of partitions, who contain the message / events in an unchangable sequence
@@ -1236,5 +1256,5 @@ how to address performance issue in spring boot app?
     	continuously monitor the application to prevent future issue
        
       
-    	
+    slf4j, webclient , message queue, kafka	
    	
