@@ -602,8 +602,33 @@ Spring Security
 		your-256-bit-secret
 		
 		) secret base64 encoded
-  
-WB client 
+
+
+RestTemplate
+--	
+	in main  class create a bean
+
+  	@Bean
+   	public RestTemplate restTemplate(){
+    		return new RestTemplate();
+	}
+
+ 
+	@Autowired
+ 	private RestTemplate restTemplate;
+
+  	@GetMapping("/{customerId}")
+   	public Custoerm getCustomer(@PathVariable(customerId) Long customerId){
+    		Customer cust = customerService.getCustomer(customerId);
+      		 List orders = restTemplate.getForObject("http://localhost:8989/order/customer/" + customerId , List.class);
+	 	cust.setOrders(oerders);
+   		return cust;
+	 
+	}
+
+
+
+Web client 
 --
 	add the webflux dependency 
 
