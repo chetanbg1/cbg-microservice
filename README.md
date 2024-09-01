@@ -718,6 +718,20 @@ FE/Client  --->  security and identity management  ---> API gateway --->	--> Mic
  	API gateway 
   		entry point where we have routing mechanism to send request to perticular microservice
     		secutiry can be implemented here so microservices can have only business logic 
+		application.property -
+       			spring.application.name=APIGateWay
+			server.port=8080
+			
+			#routes config
+			
+			spring.cloud.gateway.routes[0].id=QuizService
+			spring.cloud.gateway.routes[0].uri=lb://QuizService
+			spring.cloud.gateway.routes[0].predicates[0]=Path=/quiz/**
+			
+			
+			spring.cloud.gateway.routes[1].id=QuestionService
+			spring.cloud.gateway.routes[1].uri=lb://QuestionService
+			spring.cloud.gateway.routes[1].predicates[0]=Path=/question/**
     	Service discover -
      		eureka from netflix
        		where all our microservices are registered 
