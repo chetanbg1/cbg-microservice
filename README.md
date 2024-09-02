@@ -75,7 +75,7 @@ Inversion of Control -
 	   									
 Spring	     							
 --
-- enterprice java framework which helps to write enterprize java applications
+- enterprice java framework which helps to write enterprice java applications
     -   application framework 
     -   programming and configuration model 
     -   infrastructure support 
@@ -94,10 +94,6 @@ Spring
 
 ApplicationContext.xml file
   									
-
-
-
-
 Spring MVC
 --
 What is Spring MVC?
