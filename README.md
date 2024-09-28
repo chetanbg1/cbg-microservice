@@ -568,6 +568,9 @@ Spring Security
  	
  
    JWT - JSON WEB TOKEN
+   	mmostly used for securing REST APIS
+    	best way to communicate security between client and server
+     follows a stateless authentication mechanism 
 	Spring Boot Microservices requires authentication of users, and one way is through JSON Web Token (JWT). JWT is an open standard ( RFC 7519) that defines a compact mechanism for securely transmitting information between 		parties. In this post, I will explain how to implement JWT authentication in Spring Microservices.
 	it a compact and self-contained way to represent information between the two parties typically server - client
 	
@@ -599,7 +602,20 @@ Spring Security
 		
 		) secret base64 encoded
 
-
+	steps - 
+ 		Add dependency - io.jsonwebtoken
+   		create JWTAuthenticationEntryPoint implements AuthenticationEntryPoint  --> implement method to check user authenticity
+     		create JWTTokenHelper -> methods related to token operations
+       		create JWTAuthenticationFilter extends OnceRequestFilter
+	 		get jwt token from request
+    			validate token
+       			get user from the token
+	  		load user associated with token
+     			set spring security
+		create JWTAuthResponse
+		Configure JWT in spring security config
+  		create login api to return token
+  		
 RestTemplate
 --	
 	in main  class create a bean
