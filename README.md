@@ -615,7 +615,9 @@ Spring Security
 		create JWTAuthResponse
 		Configure JWT in spring security config
   		create login api to return token
-  		
+
+
+ 
 RestTemplate
 --	
 	in main  class create a bean
