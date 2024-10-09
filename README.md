@@ -4,19 +4,26 @@ https://www.springboottutorial.com/blog/1-springboot.html
 
 Hibernate
 --
+what ?
 is an object-relational mapping tool used to map java objects and database tables 
+how ? 
 it provides JPA implementation hence we can use JPA annotation as well as xml configurations to achieve this mapping 
+why ?
 hibernate eliminates all the boiler -plate code that comes with JDBC
 supports HQL which is more object oriented
 provides transaction management implicitly 
 support caching for better performance 
 no need of try catch as it throws JDBCException or HibernateException 
 
-Session factory - used to retrieve session objects for database operations, can cache it and reuse it , one sessionfactory object per databse connection
-Session - used for connecting application with persistant store like hibernate framework 
-used to get physical connection with database 
-provide curd operation 
-Transaction - this is specific single / automic units of work
+imp interfaces used in hibernate
+Session factory (org.hibernate.SessionFactory) -
+	used to retrieve session objects for database operations, we need to innitialize that once and can cache it and reuse it , one sessionfactory object per databse connection
+Session (org.hibernate.Session) - 
+	it is factory for transaction, it is used for connecting application with persistant store like hibernate framework / DB. 
+	it is ued to get the connection with the database.
+	used to get physical connection with database 
+	provide methids for CRUD operation 
+Transaction (org.hibernate.Transaction) - this is specific single / automic units of work
 
 SessionFactory factory  = metadata.getSessionFactoryBuilder().build();
 Session session  = factory.openSession();
@@ -26,16 +33,144 @@ Transaction t  = session.beginTransaction();
 	t.commit;
 	factory.close();
 	session.close()
+ Annotations used in hibernate
+ @Entity
+ 	used with the model classes to specify that they are entity beans.
+@Table
+	used with entity beans to define the corresponding table name in database
+@Acsess
+	used to define the access type, either field or property
+ 	Default value is field and if you want hibernate to use getter / setter methods then you need to set it to property
+  	eg @Access(value =AccessType.PROPERTY)
+@ID
+	used to define the primary key in the entity bean
+@EmbeddedId
+	used to define the composite primary key in the entity bean
+@Column
+	used to define the column name in database table
+@GeneratedValue
+	used to define the stratergy to be used for generation of primary key
+@OnetoOne
+	used to define the onetoone mapping between two entities / similar we have - OneToMany, ManyToOne, ManyToMany
+@Cascade
+	used to define the cascading between two beans, used with mapping work with conjection of CascadedType
+@JoinColumn
+	Used to define the property for foreign key
+
+ Mapping in hibernate
+ OneToOne - one emp has one phone number
+ ManyToOne - many epm can stay at one address / one address belong to many emp
+ 	eg  class Student{
+  		@ManyToOne(cascade = CascadeType.All)
+    		private Address address;
+	}
+ManyToMany - one student can have many degrees , one degree can be allocated to many students, for one degree multiple students can be enrolled in it
+	eg class Student{
+ 	@ManyToMany(targetEntity = Degree.Class , cascade= {CascadeType.All})
+  	@JoinTable(name="DegreeStudentThirdTable", joinColumns ={@JoinColumn(name="StudentId)},
+   	inverseJoinColumns = {@JoinColumn(name="CertificateId")})
+    	private List<Degree> degrees;
+	}
+
+
 hibernate configuration file - 
 	used to discribe properties related to database that used to cerate the session factory
+ 	contains the database specific configuerations and used ti initialize sessionFactory.
  	<session-factory>
-  		<property name = "connection.url">jdbc:oracle:thin:@localhost:1234:dbname</property>
+		  <property name = "hbm2ddl.auto">updated</property>
+		  <property name = "dialect">org.hibernate.dialect.Oracle9Dialect</property>
+		  <property name = "connection.url">jdbc:oracle:thin:@localhost:1234:dbname</property>
+  		  <property name = "connection.username">cbg</property>
+      		<property name = "connection.password">cbg</property>
     		...
       		...
 	</session-factory>
+Hibernate mapping file
+	the mapping file name conventionally, should be class_name.hbm.xml
+ 	hibernate-mapping - root element
+  	class - specifies the persistent class
+   	id - specifies the primary atrribute in the class
+    	generator - used to generate primary key
+     	property - specifies the property name of the Persistent class.
+
+      <hibernate-mapping>
+      	<class name = "com.gfarm.Employee" table="empTable">
+       		<id name = "id">
+	 	  <generator class = "assigned"></generator>
+     		</id>
+       		<property name="firstName"></property>
+	 	<property name="lastName"></property>
+   	</class>
+      </hibernate-mapping>
+
+steps to create a hibernate app
+create a persistent POJO eg Employee -> Create a mapping file -> Create a config file -> class for retrieving or storing the POJO -> run the APP to see the result
+
+getCurrentSession() 
+	method returns the session bound to the context.
+ 	sience this session object belongs to the context of Hibernate, it is okay if you dont close it
+  	once the session factory is closed the session get closed
+openSession()
+	method is used to open a new session
+ 	you should close this session this session object once you are done with all the database operations
+  	and also, you should open a new session for each request in multi- threaded environment
+
+Session -get() and load()
+get() loads the data as soon as it is called whereas load() returns a proxy object and loads data only when it actually required
+so load() is better because it support lazy loading
+Since load() throws exception when data is not found, ew should use it only when we know data exists
+we should use get() when we want to make sure data exists in the database.
+
+Hibrenate caching
+	hibernate caches query data to make our application faster and improves performance.
+ 	it reduce the number of database calls
+  
+First level cache 
+	associated with the Session Object
+ 	enable bydefault and there is no way to disable it
+  	still hibernate provides methods through which we can delete selected objects from the cache or clear the cache completly
+   	any object cached ina session will not be visible to other sessions and when the session is closed , all the cached object will also lost
+Second level cache
+	is bydefault disabled but we can enable it through configuration
+ 	configure hibernate Second level cache using EHCache
+  	- add hibernate -ehcache dependency in your project, if it is not maven then add corresponding jars
+   	- add property related to ehcache in configuration file
+    		region factory
+      		use_second_level_cache
+		use_query_cache
+  		configuerationResourceName - cbg.xml
+
+    configuration file - cbg.xml
+    	diskStore path -
+     	defaultCache -
+      	cache name - 
+
+	Annotate entity beans with @Cache annotation and caching stratergy to use
+ 	@Entity
+  	@Table(name = "Address")
+   	@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="employee")
+    	public class Address{
+     
+	}
+   	
+Query Cache
+
+How to integrate Hibernate and Spring
+	spring is java framework extensively used in enterprise application
+ 	hibernate is ORM framework
+  	- add required dependencies
+   		spring boot starter
+     		starter web'
+       		data jpa
+	 	hibernate-core
+   		hibernate-entitymanager
+     		mysql-connector-java
+   	- create entity , controller, service and DAO layers as required
 
  Lasy initialization in hibernate - design pattern used to postpon the initialization of object as long as possible 
 
+what is hibernate?
+	is an object relational mapping tool used to map java object and database tables.
 
 spring framwork 
 --
