@@ -167,11 +167,64 @@ How to integrate Hibernate and Spring
      		mysql-connector-java
    	- create entity , controller, service and DAO layers as required
 
- Lasy initialization in hibernate - design pattern used to postpon the initialization of object as long as possible 
 
-what is hibernate?
-	is an object relational mapping tool used to map java object and database tables.
+// to add the data in DB
+public static void main(String [] args){
 
+ 	//bootstrapping hibernate app with these configurations to load data
+	Configuration configuration = new Configuration();  // used to make connection with database
+ 	configuration.config("hibernate.cfg.xml");	// fetching the configuration from the xml file
+  	configuration.addAnnotatedClass(Song.class);   // class to be treated as entity and to add its object in database
+
+    	SessionFactory sessionFActory = configuration.buildSessionFactory();    // singleton , one session factory per database - creates the coneection with database using configuration
+
+	// OR
+ 	SessionFactory sessionFactory = new Configuration()
+  						.configure()
+						.addAnnotatedClass(Song.class)
+      						.buildSessionFactory();
+	    
+      session session = sessionFactory.openSession();   // create session using session factory
+
+      Song song1 = new Song();  // careat a object to be saved
+
+      song1.setId(1);
+      song1.setName("lalalala");
+      song1.setArtist("myself");
+
+      session.beginTransaction();    // begin the transaction
+      session.save(song1);   // save to database
+      session.getTransaction().commit();   //  commit it in database
+      
+}
+
+//to get the from DB
+
+	Configuration configuration = new Configuration();  // used to make connection with database
+ 	configuration.config("hibernate.cfg.xml");	// fetching the configuration from the xml file
+  	configuration.addAnnotatedClass(Song.class);   // class to be treated as entity and to add its object in database
+
+    	SessionFactory sessionFActory = configuration.buildSessionFactory();    // singleton , one session factory per database - creates the coneection with database using configuration
+
+    	session session = sessionFactory.openSession();   // create session using session factory
+
+	session.beginTransaction();   //optional code can work without it
+     	Song song = session.get(Song.class , 1);  //eager laoding  , OR
+	Song song = session.load(Song.class , 1);	//lazy loading
+ 	session.getTransaction().commit();	 //optional code can work without it
+
+ //to update
+		Song song = session.update(Song.class , 1);  //eager laoding
+
+//to delete
+	session.beginTransaction();   
+     	Song song = session.delete(Song.class , 1); 
+ 	session.getTransaction().commit();	
+
+
+transient ---> persistent ---> detached
+
+   
 spring framwork 
 --
 The core feature of Spring framework is dependency injection. Spring also provides great integration with other frameworks, like Hibernate. Spring provides a few frameworks of its own - for example, Spring MVC for developing web applications and REST API.
