@@ -542,7 +542,7 @@ key dependencies
 can we use only spring boot dependency feature and configuration maven plugin manually
     yes 
     dont inherit from the spring-boot-starter pom.
-    include spring boot dependencies inside the dependencymanagement secction as an import scope 
+    include spring boot dependencies inside the dependency management section as an import scope 
 
 Spring boot CLI and its benefits
     command line tool to create, run and manage spring boot application
@@ -733,7 +733,7 @@ how to optimize the performance of a spring boot application
 --
 	implement caching for frequently accessed data
  	optimzed database queries to reduce load on database
-  	use asynchronous methods for operations like sending maail
+  	use asynchronous methods for operations like sending mail
    	load balancer if traffic is high
     	optimize the time complexity 
      	use webFlus to handle a large number of concurrent connections
@@ -764,10 +764,10 @@ Spring Security
  	
  
    JWT - JSON WEB TOKEN
-   	mmostly used for securing REST APIS
+   	mostly used for securing REST APIS
     	best way to communicate security between client and server
      follows a stateless authentication mechanism 
-	Spring Boot Microservices requires authentication of users, and one way is through JSON Web Token (JWT). JWT is an open standard ( RFC 7519) that defines a compact mechanism for securely transmitting information between 		parties. In this post, I will explain how to implement JWT authentication in Spring Microservices.
+	Spring Boot Microservices requires authentication of users, and one way is through JSON Web Token (JWT). JWT is an open standard ( RFC 7519) that defines a compact mechanism for securely transmitting information between parties.
 	it a compact and self-contained way to represent information between the two parties typically server - client
 	
   
@@ -828,7 +828,7 @@ RestTemplate
  	private RestTemplate restTemplate;
 
   	@GetMapping("/{customerId}")
-   	public Custoerm getCustomer(@PathVariable(customerId) Long customerId){
+   	public Customer getCustomer(@PathVariable(customerId) Long customerId){
     		Customer cust = customerService.getCustomer(customerId);
       		 List orders = restTemplate.getForObject("http://localhost:8989/order/customer/" + customerId , List.class);
 	 	cust.setOrders(oerders);
@@ -909,15 +909,7 @@ Spring Boot Testing
 
 YAML over properties file
 	it supprot the hierarchical configuration, which are more readable and easy to manage
-
-authentication
-	who i am
- Authrization
- 	what i am allowed to do
-
-
- 	
-  
+ 	  
 -# Microservices 
 --
 	architecture where the application is exposed as loosely coupled services that can be independently developed, deployed and maintain
@@ -940,7 +932,10 @@ disadvantages
  	more microservices means more resources high investment
   	diificult to maintain transaction safty and data boundry 
    	debugging of problems are harder 
-
+challenges in microservices -
+    monitoring  / tracking 
+    managing product realse 
+    lot of teams need to cordinate together to deploy application as whole to get realse 
 
 		
 										--> Microservice 1 -->	|
@@ -953,7 +948,8 @@ FE/Client  --->  security and identity management  ---> API gateway --->	--> Mic
  	API gateway 
   		entry point where we have routing mechanism to send request to perticular microservice
     		secutiry can be implemented here so microservices can have only business logic 
-		application.property -
+      
+	application.property -
        			spring.application.name=APIGateWay
 			server.port=8080
 			
@@ -970,11 +966,11 @@ FE/Client  --->  security and identity management  ---> API gateway --->	--> Mic
     	Service discover -
      		eureka from netflix
        		where all our microservices are registered 
-	 	as we can not hardcode the URLs these can at any point from env to env
+	 	as we can not hardcode the URLs, at any point from env to env
    		euraka keeps the track of all the microservies / urls 
      
 monolithic application
-	code base is same for presentation , business layer and data access layer , application depployed as a single unit
+	code base is same for presentation , business layer and data access layer , application deployed as a single unit
  	complex to maintain and scalability is an issue 
     	application that is deployed as one big thing 
     	tightly coupled architecture 
@@ -1014,11 +1010,6 @@ All instances of all the microservices, register themselves with the naming serv
 In the example above, whenever a new instance of Microservice5 is launched, it registers with the naming server. When Microservice4 wants to talk to Microservice5, it asks the naming server - what are the available instances of Microservice5?
 
 
-
-challenges in microservices -
-    monitoring  / tracking 
-    managing product realse 
-    lot of teams need to cordinate together to deploy application as whole to get realse 
 
 How microservices interact with each other --
 	Synchronous communication
