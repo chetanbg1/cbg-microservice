@@ -2,6 +2,37 @@
 
 https://www.springboottutorial.com/blog/1-springboot.html
 
+JPA
+--
+JPA (Java Persistence API) is a specification that provides an ORM (Object-Relational Mapping) framework in Java, which allows developers to manage relational data with Java objects. It abstracts the complexity of database interaction and provides a uniform interface for performing CRUD (Create, Read, Update, Delete) operations on the underlying database.
+
+How JPA Works
+JPA works through the following main components:
+
+Entity Classes:
+These are simple Java classes (POJOs) that represent tables in the database. Each instance of the class represents a row in the table, and each field represents a column.
+Annotations like @Entity, @Table, and @Id are used to map the class to the database structure.
+
+Entity Manager:
+The EntityManager is the core interface in JPA that manages the persistence operations on entities. It provides methods for CRUD operations, querying, and managing transactions.
+The entity manager is part of the persistence context, which is a set of managed entities within a given session or transaction.
+
+Persistence Context:
+The persistence context is a session-like structure where entities are managed by the EntityManager. It handles the state of entities (new, managed, detached, removed) and manages caching, identity, and database synchronization.
+
+JPA Annotations:
+JPA uses annotations to define how Java classes and fields are mapped to database tables and columns. Here are some key annotations:
+@Entity: Defines a class as a JPA entity.
+@Table(name="table_name"): Specifies the table name in the database.
+@Id: Defines the primary key of an entity.
+@GeneratedValue: Specifies how the primary key should be auto-generated.
+@Column(name="column_name"): Specifies the column name in the database.
+@OneToMany, @ManyToOne, @OneToOne, @ManyToMany: Define relationships between entities (foreign key constraints).
+
+Transaction Management:
+JPA provides a standard way to handle database transactions, ensuring that operations are atomic (i.e., all-or-nothing).
+Transactions are typically controlled using the EntityTransaction interface. In enterprise applications, transaction management is usually handled by the framework (such as Spring), but JPA allows for manual transaction control.
+
 Hibernate
 --
 what ?
@@ -17,12 +48,12 @@ no need of try catch as it throws JDBCException or HibernateException
 
 imp interfaces used in hibernate
 Session factory (org.hibernate.SessionFactory) -
-	used to retrieve session objects for database operations, we need to innitialize that once and can cache it and reuse it , one sessionfactory object per databse connection
+	used to retrieve session objects for database operations, we need to initialize that once and can cache it and reuse it , one sessionfactory object per databse connection
 Session (org.hibernate.Session) - 
 	it is factory for transaction, it is used for connecting application with persistant store like hibernate framework / DB. 
-	it is ued to get the connection with the database.
+	it is used to get the connection with the database.
 	used to get physical connection with database 
-	provide methids for CRUD operation 
+	provide methods for CRUD operation 
 Transaction (org.hibernate.Transaction) - this is specific single / automic units of work
 
 SessionFactory factory  = metadata.getSessionFactoryBuilder().build();
@@ -75,7 +106,7 @@ ManyToMany - one student can have many degrees , one degree can be allocated to 
 
 hibernate configuration file - 
 	used to discribe properties related to database that used to cerate the session factory
- 	contains the database specific configuerations and used ti initialize sessionFactory.
+ 	contains the database specific configuerations and used to initialize sessionFactory.
  	<session-factory>
 		  <property name = "hbm2ddl.auto">updated</property>
 		  <property name = "dialect">org.hibernate.dialect.Oracle9Dialect</property>
@@ -118,7 +149,7 @@ openSession()
 Session -get() and load()
 get() loads the data as soon as it is called whereas load() returns a proxy object and loads data only when it actually required
 so load() is better because it support lazy loading
-Since load() throws exception when data is not found, ew should use it only when we know data exists
+Since load() throws exception when data is not found, we should use it only when we know data exists
 we should use get() when we want to make sure data exists in the database.
 
 Hibrenate caching
@@ -129,7 +160,7 @@ First level cache
 	associated with the Session Object
  	enable bydefault and there is no way to disable it
   	still hibernate provides methods through which we can delete selected objects from the cache or clear the cache completly
-   	any object cached ina session will not be visible to other sessions and when the session is closed , all the cached object will also lost
+   	any object cached in a session will not be visible to other sessions and when the session is closed , all the cached object will also lost
 Second level cache
 	is bydefault disabled but we can enable it through configuration
  	configure hibernate Second level cache using EHCache
@@ -381,29 +412,6 @@ provides build in repository support such as JpaRepository, enabling CURD operat
 also spring boot automatically initialize database schemas and seed data using scripts
 it integrate smoothly with various databases and ORM technologies transalate SQL expresions into Spring data access exeptions
 
-JPA
---
-JPA allows you to map application classes to database tables.
-
-Entity Manager - Entity manager may manage your entities after the mappings are defined. Entity Manager manages all database interactions.
-Java Persistence Query Language (JPQL) - Offers methods for writing queries to do entity searches. It is critical to recognise that these are not SQL queries. JPQL queries are already aware of the mappings that exist between entities. More criteria can be added as needed.
-Criteria API specifies a Java-based API for doing database searches.
-
-What is Spring Data?
-From http://projects.spring.io/spring-data/
-
-The objective of Spring Data is to provide a familiar and consistent Spring-based programming model for data access while keeping the unique characteristics of the underlying data store. It makes data access technologies, relational and non-relational databases, map-reduce frameworks, and cloud-based data services simple to utilise.
-
-To make things easier, Spring Data provides Abstractions (interfaces) that may be used regardless of the underlying data source.
-
-An example is shown below
-
-interface TodoRepository extends CrudRepository<Todo, Long> {}
-
-Core idea is that
-Without writing a lot of code, you may establish a basic repository and use it to insert, update, remove, and retrieve todo entities from the database.
-
-
 Annotations
 --
 @SpringbootApplication = @configuration (helps to identifiy the beans in application)+ @EnableAutoConfiguration (bean is autoscanned and added to set of depedencies) + @ComponentScan (it scans the component/ bean defined by us)
@@ -443,7 +451,7 @@ Annotations
     can used with get, put, post, delete
 
 @Repository 
-    marks class as DAO, used on class that has databse persistent logic 
+    marks class as DAO, used on class that has database persistent logic 
 
 @Value("${server.port}")
 	fetch the value from application.properties file 
@@ -458,7 +466,7 @@ Annotations
 @Transactional
 	it tells spring to handle request as single transaction
  	used on method or class
-  	put @transactional on service method where we perform database operations, if anything goes wrong with this methos, spring boot will automatically roll back the changes to avoid partial updates
+  	put @transactional on service method where we perform database operations, if anything goes wrong with this method, spring boot will automatically roll back the changes to avoid partial updates
    	put on service layer - the service layer where the business logic is kept
 
 @Async
