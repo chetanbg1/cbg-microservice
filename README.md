@@ -258,7 +258,10 @@ transient ---> persistent ---> detached
    
 spring framwork 
 --
-The core feature of Spring framework is dependency injection. Spring also provides great integration with other frameworks, like Hibernate. Spring provides a few frameworks of its own - for example, Spring MVC for developing web applications and REST API.
+framework that  help the developers to work on their application rather than worrying about non-functional code, so developer can work on business logic.
+The core feature of Spring framework is dependency injection(outsourcing the job of object creation) which is a pattern that allows to build decoupled system. Spring also provides great integration with other frameworks, like Hibernate. Spring provides a few frameworks of its own - for example, Spring MVC for developing web applications and REST API.
+
+dependencies -> spring-core and spring-context
 
 Dependency Injection - 
 	In software design, dependency injection (DI) is a design pattern that aims to decouple objects from their dependencies. Instead of creating their own dependencies internally, objects receive them from an external source.
@@ -271,7 +274,7 @@ Dependency Injection -
 
 Inversion of Control - 
     	inverting the control of creating objects using new keyword to container or framework 
-	Spring IoC (Inversion of Control) Container is the core of Spring Framework. It creates the objects, configures and assembles their dependencies, manages their entire life cycle. The Container uses Dependency Injection(DI) to 	manage the components that make up the application. It gets the information about the objects from a configuration file(XML) or Java Code or Java Annotations and Java POJO class. These objects are called Beans. Since the 		Controlling of Java objects and their lifecycle is not done by the developers, hence the name Inversion Of Control.
+	Spring IoC (Inversion of Control) Container is the core of Spring Framework. It creates the objects, configures and assembles their dependencies, manages their entire life cycle. The Container uses Dependency Injection(DI) to 	manage the components that make up the application. It gets the information about the objects from a configuration file(XML) or Java Code or Java Annotations and Java POJO class. These objects are called Beans. Since the Controlling of Java objects and their lifecycle is not done by the developers, hence the name Inversion Of Control.
 
 	Increased Modularity and Maintainability:
 		Code becomes cleaner and more modular by decoupling components from their dependencies.
@@ -290,8 +293,60 @@ Inversion of Control -
 		Dependency injection frameworks can manage dependencies across the application, preventing dependency conflicts and ensuring version compatibility.
  	
   
- 
-	   									
+ APP --> want an object --> calls IOC container --> configuration
+there are two IOC containers - beanFactory and application context
+Feature				BeanFactory					ApplicationContext
+Bean Initialization		Lazy by default					Eager by default
+Support for Annotations		No						Yes
+Event Handling			No						Yes
+Internationalization		No						Yes
+Used in				Lightweight or testing scenarios		Full-fledged Spring apps
+Common Implementations		XmlBeanFactory (deprecated)			ClassPathXmlApplicationContext, AnnotationConfigApplicationContext
+
+Config.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="helloBean" class="com.example.HelloWorld">
+        <property name="message" value="Hello from Spring!" />
+    </bean>
+
+</beans>
+🔹 2. Java Class: HelloWorld.java
+
+package com.example;
+
+public class HelloWorld {
+    private String message;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void printMessage() {
+        System.out.println(message);
+    }
+}
+🔹 3. Main Class: MainApp.java
+
+package com.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
+
+        HelloWorld obj = (HelloWorld) context.getBean("helloBean");
+        obj.printMessage();
+    }
+}
+      
 Spring	     							
 --
 - enterprice java framework which helps to write enterprice java applications
