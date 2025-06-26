@@ -346,7 +346,46 @@ public class MainApp {
         obj.printMessage();
     }
 }
-      
+
+Type										How It's Done					When to Use
+Constructor									Via constructor params				Required dependencies
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Define the Engine bean -->
+    <bean id="engine" class="Engine"/>
+
+    <!-- Constructor injection of Engine into Car -->
+    <bean id="car" class="Car">
+        <constructor-arg ref="engine"/>
+    </bean>
+
+</beans>
+
+Setter										Via public setter methods			Optional dependencies
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Define Engine bean -->
+    <bean id="engine" class="Engine"/>
+
+    <!-- Inject Engine using setter method -->
+    <bean id="car" class="Car">
+        <property name="engine" ref="engine"/>
+    </bean>
+
+</beans>
+
+Property/Field									Via @Autowired on field				Fast but less testable
+  
 Spring	     							
 --
 - enterprice java framework which helps to write enterprice java applications
