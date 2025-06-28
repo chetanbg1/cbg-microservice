@@ -654,7 +654,43 @@ Annotations
 
 @EnableAsync 
 	this enable springs asynchronous method execution capabilities
- 
+
+
+In Spring Data (especially with MongoDB), the @DBRef annotation is used to create a reference between two documents — similar to a foreign key in relational databases.
+
+@DBRef
+private OtherDocument otherDocument;
+
+If you have two MongoDB documents (e.g., User and Address), and you want to reference one from the other, use @DBRef like this:
+@Document
+public class Address {
+    @Id
+    private String id;
+    private String street;
+    private String city;
+}
+
+@Document
+public class User {
+    @Id
+    private String id;
+    private String name;
+
+    @DBRef
+    private Address address;
+}
+This will store a reference to the Address document inside the User document, instead of embedding the whole address.
+
+Feature	Behavior
+Lazy loading	Supported with @DBRef(lazy = true)
+Manual fetch required	Yes — Spring may not always auto-fetch it like in JPA
+Denormalization option	Avoid @DBRef if denormalization or embedding is better for performance
+Cascade delete	❌ Not automatic – you must manually delete referenced documents
+
+When not to use @DBRef:
+If the referenced document doesn’t need to exist independently
+If read performance is more important (embedding may be faster)
+For deeply nested or complex structures
 
  
  conditional Annotations
