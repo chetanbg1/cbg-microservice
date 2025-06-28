@@ -33,6 +33,90 @@ Transaction Management:
 JPA provides a standard way to handle database transactions, ensuring that operations are atomic (i.e., all-or-nothing).
 Transactions are typically controlled using the EntityTransaction interface. In enterprise applications, transaction management is usually handled by the framework (such as Spring), but JPA allows for manual transaction control.
 
+Spring Data JPA 
+Spring Data JPA is a part of the larger Spring Data family. It simplifies the implementation of data access layers by reducing boilerplate code and providing powerful abstractions over JPA (Java Persistence API).
+Key Features
+Automatic CRUD implementation
+Derived query methods (based on method names)
+Pagination and Sorting support
+Custom JPQL or native queries
+Entity relationships (OneToOne, OneToMany, etc.)
+Auditing and Specifications (optional)
+
+In Spring Data JPA, you can build queries in three main ways:
+
+Query Method DSL (method naming conventions)
+
+@Query (JPQL/Native)
+
+Criteria API (dynamic, type-safe queries)
+
+1. Query Method DSL (Derived Query Methods)
+You define query methods by following naming conventions in your repository interface.
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+    private String department;
+    private int age;
+}
+Query Method Examples
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    List<Employee> findByDepartment(String department);
+    List<Employee> findByAgeGreaterThan(int age);
+    List<Employee> findByDepartmentAndAgeLessThan(String department, int age);
+    List<Employee> findTop5ByOrderByAgeDesc();
+}
+Pros:
+Very concise.
+Easy for simple, static queries.
+
+Cons:
+Not suitable for dynamic or complex conditions.
+
+🔹 2. Criteria API (Dynamic, Type-Safe)
+Criteria API is used for building dynamic queries programmatically in a type-safe way.
+
+public List<Employee> findEmployees(String department, Integer minAge) {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Employee> query = cb.createQuery(Employee.class);
+    Root<Employee> root = query.from(Employee.class);
+
+    List<Predicate> predicates = new ArrayList<>();
+
+    if (department != null) {
+        predicates.add(cb.equal(root.get("department"), department));
+    }
+    if (minAge != null) {
+        predicates.add(cb.greaterThanOrEqualTo(root.get("age"), minAge));
+    }
+
+    query.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
+
+    return entityManager.createQuery(query).getResultList();
+}
+You’ll need to inject EntityManager:
+
+
+@PersistenceContext
+private EntityManager entityManager;
+Pros:
+Best for complex/dynamic queries.
+Type-safe.
+
+Cons:
+More verbose.
+Harder to maintain for simple queries.
+Comparison Summary
+Feature						Query Method DSL					Criteria API
+Type						Static							Dynamic
+Code Length					Short							Verbose
+Type Safety					Yes							Yes
+Use Case					Simple queries						Complex queries (many filters, dynamic)
+Flexibility					Limited							High
+
 Hibernate
 --
 what ?
@@ -606,6 +690,43 @@ Spring Actuator
    	expose selected = management.endpoints.web.exposure.include=health,info,env,beans
     	httptrace = consume memory for each httprequest  
 
+ResponseEntity 
+Return 200 OK with body
+@GetMapping("/hello")
+public ResponseEntity<String> sayHello() {
+    return ResponseEntity.ok("Hello, Chetan!");
+}
+Return 201 CREATED with body
+@PostMapping("/create")
+public ResponseEntity<User> createUser(@RequestBody User user) {
+    User savedUser = userRepository.save(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+}
+Return 404 NOT FOUND
+@GetMapping("/user/{id}")
+public ResponseEntity<User> getUser(@PathVariable String id) {
+    return userRepository.findById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+}
+✅ Return custom headers
+@GetMapping("/download")
+public ResponseEntity<byte[]> downloadFile() {
+    byte[] fileData = ...; // your file bytes
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Content-Disposition", "attachment; filename=file.txt");
+
+    return ResponseEntity.ok()
+            .headers(headers)
+            .body(fileData);
+}
+Summary
+Task							Code
+200 							OK	ResponseEntity.ok(body)
+201 							CREATED	ResponseEntity.status(CREATED).body(...)
+404							NOT FOUND	ResponseEntity.notFound().build()
+Custom headers						ResponseEntity.ok().headers(...).body(...)
+
 deploy spring boot as as JAR or WAR 
 --
 	add spring-boot-maven-plugin in pom.xml
@@ -1160,9 +1281,11 @@ Rest
 
     	post, get , put , delete == CURD - create , read , update , delete
 
-   HTTP status code
+   HTTP status code (response entity = data + error code)
    	rest web services uses http status code in server responses
+    	100 - informational purpose
     	200 - represent successful request and response
+     	300 - indicates that furthur action is needed to complete the request
      	400 - client side error
       	500 - server side error
        
